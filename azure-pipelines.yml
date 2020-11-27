@@ -44,6 +44,10 @@ jobs:
         vmImage: 'ubuntu-18.04'
         CPU: amd64
         NIM_TEST_NIMBUS: true
+      Beacon_Linux:
+        vmImage: 'ubuntu-18.04'
+        CPU: amd64
+        NIM_TEST_BEACON: true
 
   pool:
     vmImage: $(vmImage)
@@ -193,3 +197,13 @@ jobs:
         make USE_SYSTEM_NIM=1 test
       displayName: 'Test Nimbus'
       condition: eq(variables.NIM_TEST_NIMBUS, true)
+
+    - bash: |
+        ./koch boot -d:release
+        # sudo apt-get install librocksdb-dev libpcre3-dev
+        git clone https://github.com/status-im/nimbus-eth2
+        cd nimbus-eth2
+        make USE_SYSTEM_NIM=1
+        make USE_SYSTEM_NIM=1 test
+      displayName: 'Test Beacon'
+      condition: eq(variables.NIM_TEST_BEACON, true)
