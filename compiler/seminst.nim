@@ -62,7 +62,7 @@ iterator instantiateGenericParamList(c: PContext, n: PNode, pt: TIdTable): PSym 
         t = errorType(c)
       elif isUnresolvedStatic(t) and (q.typ.kind == tyStatic or
             (q.typ.kind == tyGenericParam and
-              q.typ.genericParamHasConstraints and
+              q.typ.sons.len > 0 and
               q.typ.genericConstraint.kind == tyStatic)) and
           c.inGenericContext == 0 and c.matchedConcept == nil:
         # generic/concept type bodies will try to instantiate static values but
